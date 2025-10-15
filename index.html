@@ -9,9 +9,33 @@
 </head>
 <body>
   <div class="marquee-container">
-    <marquee behavior="scroll" direction="left">
-      🎉 Welcome to New Selvam Sweet & Bakery! 🎉 Fresh Sweets Made Daily • Free Delivery on Orders Above ₹500 • 🎉
-    </marquee>
+    <div class="announcement-bar__wrap">
+      <marquee behavior="scroll" direction="left" scrollamount="3" class="is-selected">
+        <span class="announcement-bar-marquee">
+          <span class="announcement-item" style="color: white;">
+            <p><strong>🤤 </strong>Everyone's Grabbing our <strong>Diwali Special Combo! </strong><em><strong>(Over 7000+ Combos Sold already)</strong></em></p>
+          </span>&nbsp;&nbsp;&nbsp;&nbsp;
+          <!-- <span class="announcement-item" style="color: white;">
+            <p><strong>🤤 </strong>Everyone's Grabbing our <strong>Diwali Special Combo! </strong><em><strong>(Over 7000+ Combos Sold already)</strong></em></p>
+          </span>&nbsp;&nbsp;&nbsp;&nbsp; -->
+          <span class="announcement-item" style="color: white;">
+            <p>🥳 <a href="#products" title="Diwali Special Sweets & Snacks"><strong>Enjoy FREE Goodies worth ₹454+ Upto 15% on Diwali Special Combos </strong></a></p>
+          </span>&nbsp;&nbsp;&nbsp;&nbsp;
+          <span class="announcement-item" style="color: white;">
+            <p>| Enjoy <em><strong>FREE Delivery </strong></em><a href="#products" title="Top Sellers"><em><strong>+ </strong></em>Banana Chips on orders over ₹999 |</a></p>
+          </span>&nbsp;&nbsp;&nbsp;&nbsp;
+          <span class="announcement-item" style="color: white;">
+            <p><a href="#products" title="Top Sellers">| Get 4 Goodies <strong>worth ₹454 above ₹2499/-❤️</strong>|</a></p>
+          </span>&nbsp;&nbsp;&nbsp;&nbsp;
+          <!-- <span class="announcement-item" style="color: white;">
+            <p><strong>| </strong><em><strong>Extra 10% Off </strong></em>on your first order.<em> Use code: </em><em><strong>WELCOME  </strong></em><strong>|</strong></p>
+          </span>&nbsp;&nbsp;&nbsp;&nbsp; -->
+          <span class="announcement-item" style="color: white;">
+            <p> | Trusted by <em><strong>4 Lakh+</strong></em><em> </em><em><strong>Happy Families</strong></em> ❤️ |</p>
+          </span>&nbsp;&nbsp;&nbsp;&nbsp;
+        </span>
+      </marquee>
+    </div>
   </div>
 
   <header class="header">
@@ -96,12 +120,45 @@
     </div>
   </section>
 
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2025 New Selvam . All rights reserved.</p>
-      <p>Made with ❤️ in Dindigul</p>
+  <!-- =======================
+     FOOTER SECTION
+======================= -->
+<footer class="footer">
+  <div class="container footer-content">
+    <div class="footer-column footer-about">
+      <h3>Selvam Bakery & Sweets</h3>
+      <p>Serving happiness since 1995 — freshly prepared sweets and savouries made with love in every bite.</p>
     </div>
-  </footer>
+
+    <div class="footer-column footer-map">
+      <h4>Find Us</h4>
+      <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.949773857639!2d79.29120167411938!3d12.910949716207059!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bad3503dcec4d77%3A0x349da8d052b35b1f!2sNEW%20SELVAM%20SWEETS%26%20BAKERY!5e0!3m2!1sen!2sin!4v1760453832425!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+    <div class="footer-column footer-social">
+      <h4>Follow Us</h4>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/mselvamsweets/" target="_blank" aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://www.instagram.com/selvamsweets_/" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+    
+    <!-- Font Awesome for Social Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 Selvam Bakery. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<!-- Font Awesome for Social Icons -->
+<script src="https://kit.fontawesome.com/a2e0e6e9f3.js" crossorigin="anonymous"></script>
 
   <!-- Cart Sidebar -->
   <div class="cart-overlay" id="cartOverlay"></div>
