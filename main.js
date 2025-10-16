@@ -1,18 +1,43 @@
+// Force remove any white space at the top
+$(document).ready(function() {
+  // Remove any potential top space
+  $('html, body').css({
+    'margin-top': '0',
+    'padding-top': '0',
+    'overflow-x': 'hidden'
+  });
+  
+  // Ensure marquee is exactly at the top
+  $('.marquee-container').css({
+    'top': '0',
+    'margin-top': '0',
+    'padding-top': '0'
+  });
+  
+  // Force browser to recalculate layout
+  setTimeout(function() {
+    document.body.style.display = 'none';
+    document.body.offsetHeight; // Trigger reflow
+    document.body.style.display = '';
+  }, 10);
+});
+
+
 const products = [
   { id: 1, name: 'Badusha', price: 220, image: 'images/Badusha.webp', featured: true },
   { id: 2, name: 'Laddu', price: 220, image: 'images/Ghee_Laddu_Sweets.webp', featured: true },
   { id: 3, name: 'Jangiri', price: 220, image: 'images/Jangiri_Sweets.webp', featured: true },
   { id: 4, name: 'Chandrakala', price: 220, image: 'images/Chandrakala_Sweets.webp', featured: false },
-  { id: 5, name: 'Surya Kala', price: 220, image: 'images/Surya-Kala.jpg', featured: false },
-  { id: 6, name: 'Mysore Pak', price: 220, image: 'images/Carrot-Mysore-Pak-Sweets_870x1131.webp', featured: false },
+  { id: 5, name: 'Surya Kala', price: 220, image: 'images/Surya_Kala.jpg', featured: false },
+  { id: 6, name: 'Mysore Pak', price: 220, image: 'images/Carrot_Mysore.webp', featured: false },
   { id: 7, name: 'Traditional Sweets Mixing', price: 220, image: 'images/Carrot-Mysore-Pak-Sweets_870x1131.webp', featured: true },
   { id: 8, name: 'Mini Jangiri', price: 280, image: 'images/Jangiri_Sweets.webp', featured: false },
   { id: 9, name: 'Special Laddu', price: 280, image: 'images/Carrot-Mysore-Pak-Sweets_870x1131.webp', featured: false },
   { id: 10, name: 'Mini Malai Kaja', price: 280, image: 'images/Carrot-Mysore-Pak-Sweets_870x1131.webp', featured: false },
   { id: 11, name: 'Mini Badusha', price: 280, image: 'images/MiniBadusha.webp', featured: false },
   { id: 12, name: 'Malai Kaja', price: 280, image: 'images/Carrot-Mysore-Pak-Sweets_870x1131.webp', featured: false },
-  { id: 13, name: 'Ghee Mysore Pak', price: 280, image: 'images/Carrot_Mysore.webp', featured: false },
-  { id: 14, name: 'Lamba Jamun', price: 320, image: 'images/Carrot-Mysore-Pak-Sweets_870x1131.webp', featured: false },
+  { id: 13, name: 'Ghee Mysore Pak', price: 280, image: 'images/Ghee_Mysore_pak.webp', featured: false },
+  { id: 14, name: 'Lamba Jamun', price: 320, image: 'images/Lamba_Jamun.webp', featured: false },
   { id: 15, name: 'Gulab Jamun', price: 320, image: 'images/Gulab_Jamun.webp', featured: true },
   { id: 16, name: 'Makkan Peda', price: 320, image: 'images/Arcot_Makkan_Peda.webp', featured: false },
   { id: 17, name: 'Halwa', price: 320, image: 'images/Badami_Halwa.webp', featured: false },
@@ -26,6 +51,10 @@ const products = [
 ];
 
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+
+
+
 
 /* -----------------------------------------------------------
    PRODUCT RENDERING
@@ -198,12 +227,104 @@ function removeFromCart(productId, weight) {
 }
 
 /* -----------------------------------------------------------
+   BEAUTIFUL ALERT MESSAGE SYSTEM
+----------------------------------------------------------- */
+function showAlert(title, message, type = 'success') {
+    const alertOverlay = $('#customAlert');
+    const alertBox = $('#customAlertBox');
+    const alertIcon = $('#customAlertIcon');
+    const alertTitle = $('#customAlertTitle');
+    const alertMessage = $('#customAlertMessage');
+    const alertButton = $('#customAlertButton');
+    
+    // Set content
+    alertTitle.text(title);
+    alertMessage.text(message);
+    
+    // Set type-specific styling
+    alertBox.removeClass('alert-success alert-error alert-warning alert-info');
+    alertBox.addClass(`alert-${type}`);
+    
+    // Set icon based on type
+    const icons = {
+        success: '✅',
+        error: '❌',
+        warning: '⚠️',
+        info: 'ℹ️'
+    };
+    
+    alertIcon.removeClass('success error warning info');
+    alertIcon.addClass(type);
+    alertIcon.text(icons[type] || '✅');
+    
+    // Show alert
+    alertOverlay.addClass('active');
+    setTimeout(() => {
+        alertBox.addClass('active');
+    }, 50);
+    
+    // Focus the button for accessibility
+    setTimeout(() => {
+        alertButton.focus();
+    }, 300);
+}
+
+function hideAlert() {
+    const alertOverlay = $('#customAlert');
+    const alertBox = $('#customAlertBox');
+    
+    alertBox.removeClass('active');
+    setTimeout(() => {
+        alertOverlay.removeClass('active');
+    }, 300);
+}
+
+/* -----------------------------------------------------------
+   CONTACT FORM WHATSAPP SUBMISSION
+----------------------------------------------------------- */
+function sendContactViaWhatsApp(formData) {
+    const phone = '919600554330';
+    
+    const message = `*🏪 New Selvam Sweets - Contact Form Message*
+    
+👤 *Customer Details:*
+• *Name:* ${formData.name}
+• *Email:* ${formData.email}
+• *Phone:* ${formData.phone}
+
+💬 *Message:*
+${formData.message}
+
+📧 *Sent via Website Contact Form*`;
+    
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+}
+
+/* -----------------------------------------------------------
    EVENT BINDINGS
 ----------------------------------------------------------- */
 $(document).ready(function() {
   renderProducts(products);
   renderFeaturedProducts();
   updateCart();
+
+  // Alert system initialization
+  $('#customAlertButton').on('click', hideAlert);
+  
+  // Close alert when clicking outside
+  $('#customAlert').on('click', function(e) {
+      if (e.target === this) {
+          hideAlert();
+      }
+  });
+  
+  // Close alert with Escape key
+  $(document).on('keydown', function(e) {
+      if (e.key === 'Escape' && $('#customAlert').hasClass('active')) {
+          hideAlert();
+      }
+  });
 
   // Filter functionality
   $('.filter-btn').on('click', function() {
@@ -276,17 +397,98 @@ $(document).ready(function() {
     $('#cartOverlay').removeClass('active');
   });
 
-  // Contact form submission
+  // Explore Products button
+  $('#exploreProducts').on('click', function() {
+    document.getElementById('products').scrollIntoView({behavior: 'smooth'});
+  });
+
+  // Contact form submission with beautiful alerts
   $('#contactForm').on('submit', function(e) {
     e.preventDefault();
-    alert('Thank you for your message! We will get back to you soon.');
-    this.reset();
+    
+    const submitBtn = $(this).find('.cta-button');
+    const originalText = submitBtn.text();
+    
+    // Show loading state
+    submitBtn.text('Preparing WhatsApp...').prop('disabled', true);
+    
+    // Get form values
+    const formData = {
+        name: $('#contactName').val().trim(),
+        email: $('#contactEmail').val().trim(),
+        phone: $('#contactPhone').val().trim(),
+        message: $('#contactMessage').val().trim()
+    };
+    
+    // Validation
+    let isValid = true;
+    let errorMessage = '';
+    let errorField = '';
+    
+    if (!formData.name) {
+        isValid = false;
+        errorMessage = 'Please enter your name.';
+        errorField = 'contactName';
+    } else if (!formData.email) {
+        isValid = false;
+        errorMessage = 'Please enter your email address.';
+        errorField = 'contactEmail';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        isValid = false;
+        errorMessage = 'Please enter a valid email address.';
+        errorField = 'contactEmail';
+    } else if (!formData.phone) {
+        isValid = false;
+        errorMessage = 'Please enter your phone number.';
+        errorField = 'contactPhone';
+    } else if (!/^[0-9]{10}$/.test(formData.phone.replace(/\D/g, ''))) {
+        isValid = false;
+        errorMessage = 'Please enter a valid 10-digit phone number.';
+        errorField = 'contactPhone';
+    } else if (!formData.message) {
+        isValid = false;
+        errorMessage = 'Please enter your message.';
+        errorField = 'contactMessage';
+    }
+    
+    if (!isValid) {
+        showAlert('Oops!', errorMessage, 'error');
+        if (errorField) $(`#${errorField}`).focus();
+        submitBtn.text(originalText).prop('disabled', false);
+        return;
+    }
+    
+    // Show loading alert
+    showAlert('Almost Ready!', 'Preparing your message for WhatsApp...', 'info');
+    
+    // Small delay for better UX
+    setTimeout(() => {
+        hideAlert();
+        
+        // Send via WhatsApp
+        sendContactViaWhatsApp(formData);
+        
+        // Show success message after a short delay
+        setTimeout(() => {
+            showAlert(
+                'Perfect! 🎉', 
+                `Thank you ${formData.name}! We're opening WhatsApp to send your message. Just click "Send" in WhatsApp to complete.`,
+                'success'
+            );
+        }, 500);
+        
+        // Reset form
+        this.reset();
+        
+        // Restore button
+        submitBtn.text(originalText).prop('disabled', false);
+    }, 2000);
   });
 
   // WhatsApp order message with correct price & weight (sorted same as cart)
   $('#placeOrder').on('click', function() {
     if (cart.length === 0) {
-      alert('Your cart is empty!');
+      showAlert('Empty Cart!', 'Your cart is empty! Please add some items before placing an order.', 'warning');
       return;
     }
 
@@ -316,7 +518,7 @@ $(document).ready(function() {
       orderDetails += `• ${product.name} — ${item.weight} — ₹${item.price.toFixed(2)} × ${item.quantity} = ₹${itemTotal.toFixed(2)}\n`;
     });
 
-    const message = `Hello! I would like to place an order:\n\n${orderDetails}\nTotal: ₹${total.toFixed(2)}`;
+    const message = `Hello New Selvam Sweet & Bakery! I would like to order:\n\n${orderDetails}\nTotal: ₹${total.toFixed(2)}`;
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
   });
