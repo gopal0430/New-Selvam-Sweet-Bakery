@@ -81,15 +81,50 @@ function createProductCard(product) {
       <div class="product-info">
         <h3 class="product-name">${product.name}</h3>
         <div class="product-price"><span class="price">₹${product.price.toFixed(2)}</span></div>
+        
+        
+        
         <button class="add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
       </div>
     </div>
   `);
 }
-
 /* -----------------------------------------------------------
    MODAL FOR SIZE SELECTION
 ----------------------------------------------------------- */
+
+// Product card quantity controls
+$(document).on('click', '.product-card .qty-btn.decrease-qty', function(e) {
+  e.stopPropagation();
+  const input = $(this).siblings('.quantity-input');
+  let value = parseInt(input.val()) || 1;
+  if (value > 1) {
+    input.val(value - 1);
+  }
+});
+
+$(document).on('click', '.product-card .qty-btn.increase-qty', function(e) {
+  e.stopPropagation();
+  const input = $(this).siblings('.quantity-input');
+  let value = parseInt(input.val()) || 1;
+  if (value < 50) {
+    input.val(value + 1);
+  }
+});
+
+// Update add to cart functionality to use the quantity input
+$(document).on('click', '.add-to-cart-btn', function(e) {
+  e.stopPropagation();
+  const productId = parseInt($(this).data('id'));
+  const quantity = parseInt($(this).closest('.product-info').find('.quantity-input').val()) || 1;
+  
+  // Store the quantity and open modal
+  sessionStorage.setItem('selectedQuantity', quantity);
+  openProductModal(productId);
+});
+
+
+
 function openProductModal(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
@@ -101,6 +136,7 @@ function openProductModal(productId) {
       <img src="${product.image}" alt="${product.name}" class="product-img"/>
     </div>
     <h2 class="modal-title">${product.name}</h2>
+    
     <div class="size-selector">
       <label><strong>Weight:</strong></label>
       <div class="size-options">
@@ -110,13 +146,21 @@ function openProductModal(productId) {
         <button class="size-btn" data-multiplier="0.1" data-label="100 grams">100 grams</button>
       </div>
     </div>
+    
     <div class="product-price">
       <span class="price" id="modalPrice">₹${basePrice.toFixed(2)}</span>
     </div>
+    
+    <!-- Updated Quantity Selector (Like the reference image) -->
     <div class="quantity-selector">
-      <label>Quantity:</label>
-      <input type="number" class="quantity-input" value="1" min="1" max="50" id="modalQuantity">
+      <label><strong>Quantity:</strong></label>
+      <div class="quantity-controls">
+        <button class="qty-btn decrease-qty" type="button">-</button>
+        <input type="number" class="quantity-input" value="1" min="1" max="50" id="modalQuantity" readonly>
+        <button class="qty-btn increase-qty" type="button">+</button>
+      </div>
     </div>
+    
     <button class="cta-button" id="addToCartFromModal" 
       data-id="${product.id}" 
       data-price="${basePrice}" 
@@ -126,11 +170,34 @@ function openProductModal(productId) {
     </button>
   `);
 
+  // Set quantity from session storage or default to 1
+  const storedQuantity = sessionStorage.getItem('selectedQuantity') || 1;
+  $('#modalQuantity').val(storedQuantity);
+  sessionStorage.removeItem('selectedQuantity');
+
+  
   $('#modalBody').empty().append(modalBody);
   $('#productModal').addClass('active');
 
   // Set first size as active by default
   $('.size-btn').first().addClass('active');
+
+  // Modal quantity controls
+  $('.modal-body .qty-btn.decrease-qty').on('click', function() {
+    const input = $('#modalQuantity');
+    let value = parseInt(input.val()) || 1;
+    if (value > 1) {
+      input.val(value - 1);
+    }
+  });
+
+  $('.modal-body .qty-btn.increase-qty').on('click', function() {
+    const input = $('#modalQuantity');
+    let value = parseInt(input.val()) || 1;
+    if (value < 50) {
+      input.val(value + 1);
+    }
+  });
 
   $('.size-btn').on('click', function() {
     $('.size-btn').removeClass('active');
@@ -145,7 +212,6 @@ function openProductModal(productId) {
       .data('multiplier', multiplier);
   });
 }
-
 /* -----------------------------------------------------------
    CART MANAGEMENT
 ----------------------------------------------------------- */
@@ -185,22 +251,25 @@ function updateCart() {
     const itemTotal = item.price * item.quantity;
     total += itemTotal;
 
-    const cartItem = $(`
-      <div class="cart-item">
-        <div class="cart-item-info">
-          <div class="cart-item-name">${product.name} — ${item.weight}</div>
-          <div class="cart-item-price">
-            ₹${item.price.toFixed(2)} × ${item.quantity} = ₹${itemTotal.toFixed(2)}
-          </div>
-          <div class="cart-item-quantity">
-            <button class="qty-btn decrease-qty" data-id="${item.id}" data-weight="${item.weight}">-</button>
-            <span>${item.quantity}</span>
-            <button class="qty-btn increase-qty" data-id="${item.id}" data-weight="${item.weight}">+</button>
-            <button class="remove-item" data-id="${item.id}" data-weight="${item.weight}">Remove</button>
-          </div>
-        </div>
+   // In the updateCart function, update the cart item template:
+const cartItem = $(`
+  <div class="cart-item">
+    <div class="cart-item-info">
+      <div class="cart-item-name">${product.name} — ${item.weight}</div>
+      <div class="cart-item-price">
+        ₹${item.price.toFixed(2)} × ${item.quantity} = ₹${itemTotal.toFixed(2)}
       </div>
-    `);
+      <div class="cart-item-quantity">
+        <div class="quantity-controls">
+          <button class="qty-btn decrease-qty" data-id="${item.id}" data-weight="${item.weight}">-</button>
+          <input type="number" class="quantity-input" value="${item.quantity}" min="1" max="50" readonly>
+          <button class="qty-btn increase-qty" data-id="${item.id}" data-weight="${item.weight}">+</button>
+        </div>
+        <button class="remove-item" data-id="${item.id}" data-weight="${item.weight}">Remove</button>
+      </div>
+    </div>
+  </div>
+`);
 
     cartItems.append(cartItem);
   });

@@ -1113,3 +1113,167 @@ marquee {
     padding: 0.5rem 0;
   }
 }
+/* ===================================
+   QUANTITY SELECTOR STYLES (Like the reference image)
+=================================== */
+.quantity-selector {
+  margin: 20px 0;
+}
+
+.quantity-selector label {
+  display: block;
+  font-weight: 600;
+  color: var(--dark-text);
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  width: 120px;
+}
+
+.qty-btn {
+  background: #f8f8f8;
+  border: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.qty-btn:hover {
+  background: #e8e8e8;
+}
+
+.qty-btn:active {
+  background: #d8d8d8;
+}
+
+.qty-btn.decrease-qty {
+  border-right: 1px solid #e0e0e0;
+}
+
+.qty-btn.increase-qty {
+  border-left: 1px solid #e0e0e0;
+}
+
+.quantity-input {
+  width: 40px;
+  height: 40px;
+  border: none;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--dark-text);
+  background: white;
+  -moz-appearance: textfield;
+  padding: 0;
+}
+
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Modal specific quantity selector */
+.modal-body .quantity-selector {
+  margin: 25px 0;
+}
+
+.modal-body .quantity-selector label {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+}
+
+.modal-body .quantity-controls {
+  width: 140px;
+  border-width: 2px;
+}
+
+.modal-body .qty-btn {
+  width: 45px;
+  height: 45px;
+  font-size: 20px;
+}
+
+.modal-body .quantity-input {
+  width: 50px;
+  height: 45px;
+  font-size: 18px;
+}
+
+/* Product card quantity selector */
+.product-card .quantity-selector {
+  margin: 15px 0;
+}
+
+.product-card .quantity-controls {
+  width: 110px;
+}
+
+.product-card .qty-btn {
+  width: 35px;
+  height: 35px;
+  font-size: 16px;
+}
+
+.product-card .quantity-input {
+  width: 40px;
+  height: 35px;
+  font-size: 14px;
+}
+
+/* Cart item quantity selector */
+.cart-item-quantity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cart-item .quantity-controls {
+  width: 100px;
+  border: 1px solid #ddd;
+}
+
+.cart-item .qty-btn {
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+}
+
+.cart-item .quantity-input {
+  width: 40px;
+  height: 30px;
+  font-size: 14px;
+}
+
+.cart-item .remove-item {
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.3s ease;
+}
+
+.cart-item .remove-item:hover {
+  background: #a00;
+}
